@@ -855,7 +855,7 @@ void CIOCPServer::HandleIO(DWORD dwKey, CIOCPBuffer *pBuffer, DWORD dwTrans, int
 	}
 	else
 	{
-		RemovePendingAccept(pBuffer); // [2015.8.9 bak][sListen关联了iocp, 关联时dwKey为0, 所以当有新连接发送数据时会执行到此]
+		RemovePendingAccept(pBuffer); // [2015.8.9 xiaofei][sListen关联了iocp, 关联时dwKey为0, 所以当有新连接发送数据时会执行到此]
 	}
 
 	// 3）检查套节字上发生的错误，如果有的话，通知用户，然后关闭套节字
@@ -894,7 +894,7 @@ void CIOCPServer::HandleIO(DWORD dwKey, CIOCPBuffer *pBuffer, DWORD dwTrans, int
 	// 开始处理
 	if (pBuffer->nOperation == OP_ACCEPT)
 	{
-		if (dwTrans == 0) // [2010.5.16 bak Lostyears]如果AcceptEx的数据接收缓冲区设为0, 一连接上就会执行到这
+		if (dwTrans == 0) // [2015.5.16 xiaofei]如果AcceptEx的数据接收缓冲区设为0, 一连接上就会执行到这
 		{
 #ifdef _DEBUG
 			::OutputDebugString(L"	监听套节字上客户端关闭 \n");
@@ -929,7 +929,7 @@ void CIOCPServer::HandleIO(DWORD dwKey, CIOCPBuffer *pBuffer, DWORD dwTrans, int
 					memcpy(&pClient->addrLocal, pLocalAddr, nLocalLen);
 					memcpy(&pClient->addrRemote, pRemoteAddr, nRmoteLen);
 
-					// [2010.1.15 add Lostyears][加入KeepAlive机制]
+					// [2015.4.15 xiaofei][加入KeepAlive机制]
 					BOOL bKeepAlive = TRUE;
 					int nRet = ::setsockopt(pClient->s, SOL_SOCKET, SO_KEEPALIVE, (char*)&bKeepAlive, sizeof(bKeepAlive));
 					if (nRet == SOCKET_ERROR)
