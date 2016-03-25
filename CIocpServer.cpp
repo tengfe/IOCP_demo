@@ -838,7 +838,7 @@ void CIOCPServer::HandleIO(DWORD dwKey, CIOCPBuffer *pBuffer, DWORD dwTrans, int
 
 		::LeaveCriticalSection(&pContext->Lock);
 
-		// 2）检查套节字是否已经被我们关闭 [2015.8.9 bak][如果关闭则释放剩下的未决IO]
+		// 2）检查套节字是否已经被我们关闭 [2015.8.9 xiaofei][如果关闭则释放剩下的未决IO]
 		if (pContext->bClosing)
 		{
 #ifdef _DEBUG
